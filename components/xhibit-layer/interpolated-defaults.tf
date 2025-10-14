@@ -1,3 +1,4 @@
+
 data "azurerm_resource_group" "lz" {
   for_each = { for rg in local.flattened_resource_groups : rg => rg }
   name     = each.value
@@ -16,6 +17,13 @@ data "azurerm_subnet" "lz" {
   name                 = each.value.name
 }
 
+data "azurerm_key_vault" "lz_vault" {
+  for_each = var.landing_zones
+
+  name                = "ingest${each.key}-meta001-${var.env}"
+  resource_group_name = "ingest${each.key}-main-${var.env}"
+}
+
 module "ctags" {
   source = "github.com/hmcts/terraform-module-common-tags"
 
@@ -23,4 +31,12 @@ module "ctags" {
   environment  = var.env
   product      = var.product
   expiresAfter = "3000-01-01"
+}
+
+# Lookup existing Self-Hosted Integration Runtime per Landing Zone
+data "azurerm_data_factory_integration_runtime_self_hosted" "lz" {
+  for_each = var.landing_zones
+  name                = "ingest${each.key}-shir005-${var.env}"
+  data_factory_name   = "ingest${each.key}-runtimes-dataFactory001-${var.env}"
+  resource_group_name = "ingest${each.key}-main-${var.env}"
 }
