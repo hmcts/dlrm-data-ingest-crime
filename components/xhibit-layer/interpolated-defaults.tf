@@ -34,9 +34,9 @@ module "ctags" {
 }
 
 # Lookup existing Self-Hosted Integration Runtime per Landing Zone
-data "azurerm_data_factory_integration_runtime_self_hosted" "lz" {
-  for_each = var.landing_zones
-  name                = "ingest${each.key}-shir005-${var.env}"
-  data_factory_name   = "ingest${each.key}-runtimes-dataFactory001-${var.env}"
-  resource_group_name = "ingest${each.key}-main-${var.env}"
-}
+# data "azurerm_data_factory_integration_runtime_self_hosted" "lz" {
+#   for_each = var.landing_zones
+#   name                = "ingest${each.key}-shir005-${var.env}"
+#   data_factory_name   = "ingest${each.key}-runtimes-dataFactory001-${var.env}"
+#   resource_group_name = "ingest${each.key}-main-${var.env}"
+# }
