@@ -8,5 +8,5 @@ resource "azurerm_storage_account" "this" {
   account_tier             = "Standard"
   account_kind             = "StorageV2"
   account_replication_type = "LRS"
-  tags                     = module.ctags.common_tags
+  tags                     = local.common_tags
 }

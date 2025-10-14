@@ -18,5 +18,5 @@ module "shir" {
   subnet_id                    = data.azurerm_subnet.lz["ingest${each.key}-services-${var.env}"].id
   key_vault_id                 = data.azurerm_key_vault.lz_vault[each.key].id
   integration_runtime_auth_key = "xxxxx"
-  common_tags                  = var.common_tags
+  common_tags                  = local.common_tags
 }
