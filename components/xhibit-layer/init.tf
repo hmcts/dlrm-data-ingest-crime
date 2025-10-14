@@ -14,6 +14,10 @@ terraform {
 }
 
 provider "azurerm" {
+  features {}
+}
+
+provider "azurerm" {
   alias                           = "soc"
   resource_provider_registrations = "none"
   features {}
