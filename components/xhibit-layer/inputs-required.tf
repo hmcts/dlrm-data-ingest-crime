@@ -12,4 +12,3 @@ variable "product" {
   type        = string
   description = "The name of the prodcut this infrastructure supports."
 }
-x
