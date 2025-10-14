@@ -88,3 +88,4 @@ stages:
                 terraformInitSubscription: ${{ variables.terraformInitSubscription }}
                 product: ${{ variables.product }}
                 planCommandOptions: '-compact-warnings'
+                kvConnectedServiceName: 'azurerm-sandbox-DLRM'
