@@ -17,6 +17,12 @@ locals {
       }
     ]
   ])
+  
+  is_prod            = length(regexall(".*(prod).*", var.env)) > 0
+  is_sbox            = length(regexall(".*(s?box).*", var.env)) > 0
 
+  cnp_prod_sub_id            = "8999dec3-0104-4a27-94ee-6588559729d1"
+  cnp_nonprod_sub_id         = "1c4f0704-a29e-403d-b719-b90c34ef14c9"
+  soc_sub_id                 = "8ae5b3b6-0b12-4888-b894-4cec33c92292"
   common_tags                = merge(module.ctags.common_tags, { "Data-Ingest-Project" = var.project })
 }
