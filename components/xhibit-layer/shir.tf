@@ -2,7 +2,7 @@ module "shir" {
   for_each                 = { for lz_key, lz in var.landing_zones : lz_key => lz if try(lz.deploy_shir, false) }
   # for_each                 = var.landing_zones
   # name                     = "ingest${each.key}${var.env}example"
-  source =  "github.com/hmcts/terraform-module-data-landing-zone/tree/main/modules/self-hosted-integration-runtime"
+  source =  "git::https://github.com/hmcts/terraform-module-data-landing-zone.git//modules/self-hosted-integration-runtime?ref=main"
 
   providers = {
     azurerm     = azurerm
