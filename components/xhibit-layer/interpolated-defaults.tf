@@ -31,10 +31,11 @@ data "azurerm_storage_account" "langing_storage" {
 }
 
 # TODO this should be per landing zone
-data "azurerm_user_assigned_identity" "databricks_connector" {
+data "azurerm_databricks_access_connector" "unity_catalog" {
   name                = "unity-catalog-access-connector"
   resource_group_name = "ingest05-product-databricks001-managed-rg"
 }
+
 
 module "ctags" {
   source = "github.com/hmcts/terraform-module-common-tags"
