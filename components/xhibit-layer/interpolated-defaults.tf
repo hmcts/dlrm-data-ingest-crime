@@ -24,6 +24,18 @@ data "azurerm_key_vault" "lz_vault" {
   resource_group_name = "ingest${each.key}-main-${var.env}"
 }
 
+# TODO this should be per landing zone
+data "azurerm_storage_account" "langing_storage" {
+  name                = "ingest05landing${var.env}"
+  resource_group_name = "ingest05-main-${var.env}"
+}
+
+# TODO this should be per landing zone
+data "azurerm_user_assigned_identity" "databricks_connector" {
+  name                = "unity-catalog-access-connector"
+  resource_group_name = "ingest05-product-databricks001-managed-rg"
+}
+
 module "ctags" {
   source = "github.com/hmcts/terraform-module-common-tags"
 
