@@ -17,7 +17,13 @@ locals {
       }
     ]
   ])
-  
+
+  abbr_environments_map = {
+    sbox  = "sandbox"
+    stg      = "staging"
+    production = "prod"
+  }
+
   is_prod            = length(regexall(".*(prod).*", var.env)) > 0
   is_sbox            = length(regexall(".*(s?box).*", var.env)) > 0
 
@@ -25,4 +31,6 @@ locals {
   cnp_nonprod_sub_id         = "1c4f0704-a29e-403d-b719-b90c34ef14c9"
   soc_sub_id                 = "8ae5b3b6-0b12-4888-b894-4cec33c92292"
   common_tags                = merge(module.ctags.common_tags, { "Data-Ingest-Project" = var.project })
+
+  dlrm_crime_admin_group     = "DTS DLRM Data Ingestion Admin (env:${ lookup(local.abbr_environments_map, var.env, var.env) })"
 }

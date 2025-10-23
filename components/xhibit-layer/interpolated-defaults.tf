@@ -36,6 +36,9 @@ data "azurerm_databricks_access_connector" "unity_catalog" {
   resource_group_name = "ingest05-product-databricks001-managed-rg"
 }
 
+data "azuread_group" "dlrm_crime_admin" {
+  display_name = local.dlrm_crime_admin_group
+}
 
 module "ctags" {
   source = "github.com/hmcts/terraform-module-common-tags"
