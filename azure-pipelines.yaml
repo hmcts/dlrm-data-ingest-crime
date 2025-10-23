@@ -63,10 +63,7 @@ stages:
       dependsOn: ${{ deployment.dependsOn }}
       jobs:
         - job: TerraformPlanApply
-          ${{ if eq(deployment.environment, 'sbox') }}:
-            pool: hmcts-sds-ptlsbox
-          ${{ else }}:
-            pool: hmcts-sds-ptl
+          pool: hmcts-sds-ptl
           timeoutInMinutes: ${{ variables.timeoutInMinutes }}
           steps:
             - template: steps/terraform.yaml@cnp-azuredevops-libraries
