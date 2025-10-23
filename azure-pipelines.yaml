@@ -79,3 +79,4 @@ stages:
                 product: ${{ variables.product }}
                 planCommandOptions: '-compact-warnings'
                 kvConnectedServiceName: 'azurerm-sandbox-DLRM'
+                publishPlanResults: false
