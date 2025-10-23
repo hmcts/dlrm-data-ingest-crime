@@ -54,8 +54,8 @@ stages:
             parameters:
               keyvaultName: 'infra-vault-nonprod'
               keyvaultSecret: 'azure-devops-sp-token'
-              serviceConnection: 'azurerm-sandbox-DLRM'
-              kvConnectedServiceName: 'azurerm-sandbox-DLRM'
+              serviceConnection: 'azurerm-sandbox'
+              kvConnectedServiceName: 'azurerm-sandbox'
               overrideAction: ${{ parameters.overrideAction }}
 
   - ${{ each deployment in parameters.environment_components }}:
@@ -78,5 +78,5 @@ stages:
                 terraformInitSubscription: ${{ variables.terraformInitSubscription }}
                 product: ${{ variables.product }}
                 planCommandOptions: '-compact-warnings'
-                kvConnectedServiceName: 'azurerm-sandbox-DLRM'
+                kvConnectedServiceName: 'azurerm-sandbox'
                 publishPlanResults: true
