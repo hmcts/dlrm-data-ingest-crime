@@ -31,16 +31,6 @@ parameters:
         component: 'xhibit-layer'
         service_connection: 'DTS-DATAINGEST-SBOX'
         dependsOn: 'Precheck'
-      - deployment: 'stg_xhibit'
-        environment: 'stg'
-        component: 'xhibit-layer'
-        service_connection: 'DTS-DATAINGEST-STG'
-        dependsOn: 'sbox_xhibit'
-      - deployment: 'prod_xhibit'
-        environment: 'prod'
-        component: 'xhibit-layer'
-        service_connection: 'DTS-DATAINGEST-PROD'
-        dependsOn: 'stg_xhibit'
 
 variables:
   - name: timeoutInMinutes
@@ -64,7 +54,8 @@ stages:
             parameters:
               keyvaultName: 'infra-vault-nonprod'
               keyvaultSecret: 'azure-devops-sp-token'
-              serviceConnection: 'azurerm-sandbox-DLRM'
+              serviceConnection: 'azurerm-sandbox'
+              kvConnectedServiceName: 'azurerm-sandbox'
               overrideAction: ${{ parameters.overrideAction }}
 
   - ${{ each deployment in parameters.environment_components }}:
@@ -72,10 +63,7 @@ stages:
       dependsOn: ${{ deployment.dependsOn }}
       jobs:
         - job: TerraformPlanApply
-          ${{ if eq(deployment.environment, 'sbox') }}:
-            pool: hmcts-sds-ptlsbox
-          ${{ else }}:
-            pool: hmcts-sds-ptl
+          pool: hmcts-sds-ptl
           timeoutInMinutes: ${{ variables.timeoutInMinutes }}
           steps:
             - template: steps/terraform.yaml@cnp-azuredevops-libraries
@@ -87,3 +75,5 @@ stages:
                 terraformInitSubscription: ${{ variables.terraformInitSubscription }}
                 product: ${{ variables.product }}
                 planCommandOptions: '-compact-warnings'
+                kvConnectedServiceName: 'azurerm-sandbox'
+                publishPlanResults: true
