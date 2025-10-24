@@ -30,6 +30,11 @@ data "azurerm_storage_account" "langing_storage" {
   resource_group_name = "ingest05-main-${var.env}"
 }
 
+data "azurerm_storage_account" "curated_storage" {
+  name                = "ingest05curated${var.env}"
+  resource_group_name = "ingest05-main-${var.env}"
+}
+
 # TODO this should be per landing zone
 data "azurerm_databricks_access_connector" "unity_catalog" {
   name                = "unity-catalog-access-connector"
