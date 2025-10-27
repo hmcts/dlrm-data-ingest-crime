@@ -33,4 +33,7 @@ locals {
   common_tags                = merge(module.ctags.common_tags, { "Data-Ingest-Project" = var.project })
 
   dlrm_crime_admin_group     = "DTS DLRM Data Ingestion Admin (env:${ lookup(local.abbr_environments_map, var.env, var.env) })"
+
+  #  TODO Review  
+  db_workspace_name = "ingest05-product-databricks001-${ var.env }"
 }
