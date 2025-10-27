@@ -22,6 +22,6 @@ resource "databricks_cluster" "shared_autoscaling" {
     min_workers = 1
     max_workers = 20
   }
-  data_security_mode      = USER_ISOLATION
+  data_security_mode      = "USER_ISOLATION"
   custom_tags             = local.common_tags
 }
