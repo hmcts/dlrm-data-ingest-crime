@@ -16,7 +16,7 @@ data "databricks_spark_version" "latest_lts" {
 resource "databricks_cluster" "shared_autoscaling" {
   cluster_name            = "Dlrm Crime Shared Autoscaling ${ var.env }"
   spark_version           = data.databricks_spark_version.latest_lts.id
-  node_type_id            = data.databricks_node_type.smallest.id
+  node_type_id            = "Standard_DS3_v2"
   autotermination_minutes = 20
   autoscale {
     min_workers = 1
