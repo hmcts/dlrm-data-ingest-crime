@@ -24,21 +24,19 @@ data "azurerm_key_vault" "lz_vault" {
   resource_group_name = "ingest${each.key}-main-${var.env}"
 }
 
-# TODO this should be per landing zone
 data "azurerm_storage_account" "langing_storage" {
-  name                = "ingest05landing${var.env}"
-  resource_group_name = "ingest05-main-${var.env}"
+  name                = "ingest${local.default_lz}landing${var.env}"
+  resource_group_name = "ingest${local.default_lz}-main-${var.env}"
 }
 
 data "azurerm_storage_account" "curated_storage" {
-  name                = "ingest05curated${var.env}"
-  resource_group_name = "ingest05-main-${var.env}"
+  name                = "ingest${local.default_lz}curated${var.env}"
+  resource_group_name = "ingest${local.default_lz}-main-${var.env}"
 }
 
-# TODO this should be per landing zone
 data "azurerm_databricks_access_connector" "unity_catalog" {
   name                = "unity-catalog-access-connector"
-  resource_group_name = "ingest05-product-databricks001-managed-rg"
+  resource_group_name = "ingest${local.default_lz}-product-databricks001-managed-rg"
 }
 
 data "azuread_group" "dlrm_crime_admin" {

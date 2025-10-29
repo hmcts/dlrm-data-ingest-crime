@@ -1,11 +1,9 @@
 # --- Reference existing Databricks workspace ---
 data "azurerm_databricks_workspace" "this" {
-  for_each            = var.landing_zones
-  name                = "ingest${ each.value }-product-databricks001-${ var.env }"
-  resource_group_name = "ingest${ each.value }-main-${ var.env }"
+  name                = "ingest${ local.default_lz }-product-databricks001-${ var.env }"
+  resource_group_name = "ingest${ local.default_lz }-main-${ var.env }"
 }
 
-# --- Configure Databricks provider using workspace info ---
 provider "databricks" {
   host = data.azurerm_databricks_workspace.this.workspace_url
 }
