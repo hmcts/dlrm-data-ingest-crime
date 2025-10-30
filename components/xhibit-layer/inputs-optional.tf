@@ -83,13 +83,13 @@ variable "dbrics_sql_enable_serverless" {
 }
 
 variable "dbrics_sql_warehouse_type" {
-  type        = String
+  type        = string
   description = "Databricks sql warehouse type"
   default     = "CLASSIC"
 }
 
 variable "dbrics_sql_spot_instance_policy" {
-  type        = String
+  type        = string
   description = "Databricks sql spot instence policy"
   default     = "COST_OPTIMIZED"
 }
