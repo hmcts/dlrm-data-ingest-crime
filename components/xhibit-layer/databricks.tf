@@ -36,7 +36,4 @@ resource "databricks_sql_endpoint" "sql_warehouse" {
   enable_serverless_compute = var.dbrics_sql_enable_serverless
   warehouse_type           = var.dbrics_sql_warehouse_type
   spot_instance_policy     = var.dbrics_sql_spot_instance_policy
-  tags {
-    custom_tags = local.common_tags
-  }
 }
