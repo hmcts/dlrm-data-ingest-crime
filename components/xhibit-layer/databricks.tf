@@ -24,3 +24,19 @@ resource "databricks_cluster" "shared_autoscaling" {
   data_security_mode      = "USER_ISOLATION"
   custom_tags             = local.common_tags
 }
+
+
+resource "databricks_sql_endpoint" "sql_warehouse" {
+  name                     = "Dlrm Crime SQl warehouse ${ var.env }"
+  cluster_size             = var.dbrics_sql_cluster_size
+  min_num_clusters         = var.dbrics_sql_min_workers
+  max_num_clusters         = var.dbrics_sql_max_workers
+  auto_stop_mins           = var.dbrics_sql_auto_termination_mins
+  enable_photon            = var.dbrics_sql_enable_photon
+  enable_serverless_compute = var.dbrics_sql_enable_serverless
+  warehouse_type           = var.dbrics_sql_warehouse_type
+  spot_instance_policy     = var.dbrics_sql_spot_instance_policy
+  tags {
+    custom_tags = local.common_tags
+  }
+}
