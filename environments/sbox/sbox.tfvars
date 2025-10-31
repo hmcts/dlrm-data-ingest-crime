@@ -2,7 +2,7 @@
 landing_zones = {
   "05" = {
     use_microsoft_ip_kit_structure = true
-    deploy_shir   = true
+    deploy_shir   = false
   }
 }
 
