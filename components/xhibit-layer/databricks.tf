@@ -12,6 +12,10 @@ data "databricks_spark_version" "latest_lts" {
   long_term_support = true
 }
 
+data "databricks_group" "users" {
+    display_name = "users"
+}
+
 resource "databricks_cluster" "shared_autoscaling" {
   cluster_name            = "Dlrm Crime Shared Autoscaling ${ var.env }"
   spark_version           = data.databricks_spark_version.latest_lts.id
@@ -36,4 +40,13 @@ resource "databricks_sql_endpoint" "sql_warehouse" {
   enable_serverless_compute = var.dbrics_sql_enable_serverless
   warehouse_type           = var.dbrics_sql_warehouse_type
   spot_instance_policy     = var.dbrics_sql_spot_instance_policy
+}
+
+resource "databricks_permissions" "endpoint_usage" {
+    sql_endpoint_id = databricks_sql_endpoint.this.id
+
+    access_control {
+        group_name = databricks_group.users.display_name
+        permission_level = "CAN_USE"
+    }
 }
