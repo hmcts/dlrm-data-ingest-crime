@@ -42,11 +42,11 @@ resource "databricks_sql_endpoint" "sql_warehouse" {
   spot_instance_policy     = var.dbrics_sql_spot_instance_policy
 }
 
-resource "databricks_permissions" "endpoint_usage" {
-    sql_endpoint_id = databricks_sql_endpoint.this.id
+resource "databricks_permissions" "sql_endpoint_user" {
+    sql_endpoint_id = databricks_sql_endpoint.sql_warehouse.id
 
     access_control {
-        group_name = databricks_group.users.display_name
+        group_name = data.databricks_group.users.display_name
         permission_level = "CAN_USE"
     }
 }
