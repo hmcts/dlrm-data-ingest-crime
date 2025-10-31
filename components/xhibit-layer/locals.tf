@@ -33,4 +33,7 @@ locals {
   common_tags                = merge(module.ctags.common_tags, { "Data-Ingest-Project" = var.project })
 
   dlrm_crime_admin_group     = "DTS DLRM Data Ingestion Admin (env:${ lookup(local.abbr_environments_map, var.env, var.env) })"
+
+  # Setting up a default landing zone. The project will use single LZ.
+  default_lz = "05"
 }
