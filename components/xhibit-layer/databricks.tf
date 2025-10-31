@@ -12,6 +12,10 @@ data "databricks_spark_version" "latest_lts" {
   long_term_support = true
 }
 
+data "databricks_group" "users" {
+    display_name = "users"
+}
+
 resource "databricks_cluster" "shared_autoscaling" {
   cluster_name            = "Dlrm Crime Shared Autoscaling ${ var.env }"
   spark_version           = data.databricks_spark_version.latest_lts.id
@@ -23,4 +27,26 @@ resource "databricks_cluster" "shared_autoscaling" {
   }
   data_security_mode      = "USER_ISOLATION"
   custom_tags             = local.common_tags
+}
+
+
+resource "databricks_sql_endpoint" "sql_warehouse" {
+  name                     = "Dlrm Crime SQl warehouse ${ var.env }"
+  cluster_size             = var.dbrics_sql_cluster_size
+  min_num_clusters         = var.dbrics_sql_min_workers
+  max_num_clusters         = var.dbrics_sql_max_workers
+  auto_stop_mins           = var.dbrics_sql_auto_termination_mins
+  enable_photon            = var.dbrics_sql_enable_photon
+  enable_serverless_compute = var.dbrics_sql_enable_serverless
+  warehouse_type           = var.dbrics_sql_warehouse_type
+  spot_instance_policy     = var.dbrics_sql_spot_instance_policy
+}
+
+resource "databricks_permissions" "sql_endpoint_user" {
+    sql_endpoint_id = databricks_sql_endpoint.sql_warehouse.id
+
+    access_control {
+        group_name = data.databricks_group.users.display_name
+        permission_level = "CAN_USE"
+    }
 }
