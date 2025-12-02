@@ -31,6 +31,16 @@ parameters:
         component: 'xhibit-layer'
         service_connection: 'DTS-DATAINGEST-SBOX'
         dependsOn: 'Precheck'
+      - deployment: 'stg_xhibit'
+        environment: 'stg'
+        component: 'xhibit-layer'
+        service_connection: 'DTS-DATAINGEST-STG'
+        dependsOn: 'sbox_xhibit'
+      - deployment: 'prod_xhibit'
+        environment: 'prod'
+        component: 'xhibit-layer'
+        service_connection: 'DTS-DATAINGEST-PROD'
+        dependsOn: 'stg_project'
 
 variables:
   - name: timeoutInMinutes
