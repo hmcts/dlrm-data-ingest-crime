@@ -40,7 +40,7 @@ parameters:
         environment: 'prod'
         component: 'xhibit-layer'
         service_connection: 'DTS-DATAINGEST-PROD'
-        dependsOn: 'stg_project'
+        dependsOn: 'stg_xhibit'
 
 variables:
   - name: timeoutInMinutes
