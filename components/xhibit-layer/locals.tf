@@ -21,7 +21,7 @@ locals {
   abbr_environments_map = {
     sbox  = "sandbox"
     stg      = "staging"
-    production = "prod"
+    prod = "production"
   }
 
   is_prod            = length(regexall(".*(prod).*", var.env)) > 0
