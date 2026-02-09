@@ -50,3 +50,18 @@ resource "databricks_permissions" "sql_endpoint_user" {
         permission_level = "CAN_USE"
     }
 }
+
+resource "databricks_storage_credential" "external" {
+  name = azuread_application.ext_cred.display_name
+  azure_managed_identity {
+    access_connector_id = azurerm_databricks_access_connector.unity_catalog.id
+  }
+  comment = "Managed by TF"
+}
+
+resource "databricks_external_location" "landing_external" {
+  name = "external_st"
+  url = format("abfss://%landing@%s.dfs.core.windows.net", data.azurerm_storage_account.langing_storage.name)
+  credential_name = databricks_storage_credential.external.id
+  comment         = "Managed by TF"
+}
