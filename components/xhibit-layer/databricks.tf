@@ -35,7 +35,7 @@ resource "databricks_catalog" "xhibit_catalog" {
     purpose = "Crime xhibit catalog for ${ var.env }"
   }
 
-  storage_location = "abfss://${ var.landing_container }@${ data.azurerm_storage_account.langing_storage.name }.dfs.core.windows.net/<path>"
+  storage_root = "abfss://${ var.landing_container }@${ data.azurerm_storage_account.langing_storage.name }.dfs.core.windows.net/crime_xhibit_${ var.env }"
   isolation_mode = "ISOLATED"
 }
 
