@@ -114,7 +114,7 @@ resource "databricks_grants" "catalog" {
   catalog = databricks_catalog.xhibit_catalog.name
 
   grant {
-    principal  = data.databricks_group.admins.acl_principal_id
+    principal  = data.databricks_group.admins.display_name
     privileges = ["USE_CATALOG", "CREATE_MANAGED_STORAGE"]
   }
 }
