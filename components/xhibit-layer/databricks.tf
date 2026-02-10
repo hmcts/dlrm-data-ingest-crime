@@ -90,7 +90,7 @@ resource "databricks_grants" "storage_cred_grants" {
   storage_credential = databricks_storage_credential.external.id
 
   grant {
-    principal  = "users"
+    principal  = "account users"
     privileges = ["USAGE"]
   }
 }
