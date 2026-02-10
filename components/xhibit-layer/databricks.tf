@@ -96,3 +96,12 @@ resource "databricks_grants" "storage_cred_grants" {
     privileges = ["CREATE EXTERNAL TABLE"]
   }
 }
+
+resource "databricks_grants" "external_location_permissions" {
+  external_location = databricks_external_location.landing_external.id
+
+  grant {
+    principal  = "account users" 
+    privileges = ["READ_FILES", "WRITE_FILES", "CREATE_EXTERNAL_TABLE"]
+  }
+}
