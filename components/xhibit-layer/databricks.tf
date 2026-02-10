@@ -52,7 +52,7 @@ resource "databricks_permissions" "sql_endpoint_user" {
 }
 
 resource "databricks_storage_credential" "external" {
-  name = azuread_application.ext_cred.display_name
+  name = "crime_dbrics_catalogue"
   azure_managed_identity {
     access_connector_id = azurerm_databricks_access_connector.unity_catalog.id
   }
