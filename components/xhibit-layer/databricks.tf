@@ -18,13 +18,13 @@ data "databricks_group" "users" {
 
 
 
-resource "databricks_catalog" "xhibit_catalog" {
-  name    = "xhibit_catalgoe"
-  comment = "this catalog is managed by terraform"
-  properties = {
-    purpose = "principal_catalogue"
-  }
-}
+# resource "databricks_catalog" "xhibit_catalog" {
+#   name    = "xhibit_catalog"
+#   comment = "this catalog is managed by terraform"
+#   properties = {
+#     purpose = "principal_catalogue"
+#   }
+# }
 
 resource "databricks_cluster" "shared_autoscaling" {
   cluster_name            = "Dlrm Crime Shared Autoscaling ${ var.env }"
