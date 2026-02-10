@@ -88,11 +88,11 @@ resource "databricks_external_location" "landing_external" {
   isolation_mode = "ISOLATION_MODE_ISOLATED"
 }
 
-# resource "databricks_grants" "storage_cred_grants" {
-#   storage_credential = databricks_storage_credential.external.id
+resource "databricks_grants" "storage_cred_grants" {
+  storage_credential = databricks_storage_credential.external.id
 
-#   grant {
-#     principal  = "account users"
-#     privileges = ["USAGE"]
-#   }
-# }
+  grant {
+    principal  = "account users"
+    privileges = ["CREATE EXTERNAL TABLE"]
+  }
+}
