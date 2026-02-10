@@ -85,3 +85,12 @@ resource "databricks_external_location" "landing_external" {
   credential_name = databricks_storage_credential.external.id
   comment         = "Managed by TF"
 }
+
+resource "databricks_grants" "storage_cred_grants" {
+  storage_credential = databricks_storage_credential.external.id
+
+  grant {
+    principal  = "users"
+    privileges = ["USAGE"]
+  }
+}
