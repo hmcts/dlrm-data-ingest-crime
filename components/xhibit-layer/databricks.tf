@@ -110,11 +110,11 @@ resource "databricks_grants" "external_location_permissions" {
 }
 
 
-resource "databricks_grants" "catalog" {
-  catalog = databricks_catalog.xhibit_catalog.name
+# resource "databricks_grants" "catalog" {
+#   catalog = databricks_catalog.xhibit_catalog.name
 
-  grant {
-    principal  = data.databricks_group.admins.display_name
-    privileges = ["USE_CATALOG", "CREATE_MANAGED_STORAGE"]
-  }
-}
+#   grant {
+#     principal  = data.databricks_group.admins.display_name
+#     privileges = ["USE_CATALOG", "CREATE_MANAGED_STORAGE"]
+#   }
+# }
