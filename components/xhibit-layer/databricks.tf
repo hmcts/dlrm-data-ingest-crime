@@ -28,13 +28,14 @@ data "databricks_group" "admins" {
 # }
 
 
-# resource "databricks_catalog" "xhibit_catalog" {
-#   name    = "xhibit_catalog"
-#   comment = "this catalog is managed by terraform"
-#   properties = {
-#     purpose = "principal_catalogue"
-#   }
-# }
+resource "databricks_catalog" "xhibit_catalog" {
+  name    = "crime_xhibit_${ var.env }"
+  comment = "this catalog is managed by terraform"
+  properties = {
+    purpose = "Crime xhibit catalog for ${ var.env }"
+  }
+  isolation_mode = "ISOLATED"
+}
 
 resource "databricks_cluster" "shared_autoscaling" {
   cluster_name            = "Dlrm Crime Shared Autoscaling ${ var.env }"
@@ -103,5 +104,15 @@ resource "databricks_grants" "external_location_permissions" {
   grant {
     principal  = "account users" 
     privileges = ["READ_FILES", "WRITE_FILES", "CREATE_EXTERNAL_TABLE"]
+  }
+}
+
+
+resource "databricks_grants" "catalog" {
+  catalog = databricks_catalog.xhibit_catalog.name
+
+  grant {
+    principal  = "admins"
+    privileges = ["USE_CATALOG", "CREATE_MANAGED_STORAGE"]
   }
 }
