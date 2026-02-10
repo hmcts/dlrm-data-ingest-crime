@@ -44,10 +44,10 @@ data "azuread_group" "dlrm_crime_admin" {
 }
 
 
-import {
-  to = databricks_storage_credential.external
-  id = "crime_dbrics_catalogue"
-}
+# import {
+#   to = databricks_storage_credential.external
+#   id = "crime_dbrics_catalogue"
+# }
 
 
 module "ctags" {
