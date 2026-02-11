@@ -87,11 +87,11 @@ resource "databricks_grants" "catalog_crime" {
 }
 
 resource "databricks_storage_credential" "external" {
-  name = "crime_dbrics_catalogue_${ var.env }"
+  name = "crime_dbrics_catalogue"
   azure_managed_identity {
     access_connector_id = data.azurerm_databricks_access_connector.unity_catalog.id
   }
-  isolation_mode = "ISOLATION_MODE_ISOLATED"
+  isolation_mode = "${var.databricks_landing_isolation_mode}"
   comment = "Managed by TF"
 }
 
@@ -100,7 +100,7 @@ resource "databricks_external_location" "landing_external" {
   url = format("abfss://%s@%s.dfs.core.windows.net", var.landing_container, data.azurerm_storage_account.langing_storage.name)
   credential_name = databricks_storage_credential.external.id
   comment         = "Managed by TF"
-  isolation_mode = "${var.databricks_landing_isolation_mode}"
+  isolation_mode = "ISOLATION_MODE_ISOLATED"
 }
 
 resource "databricks_grants" "storage_cred_grants" {
