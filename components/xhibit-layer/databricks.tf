@@ -95,12 +95,12 @@ resource "databricks_grants" "storage_cred_grants" {
   storage_credential = databricks_storage_credential.external.id
 
   grant {
-    principal  = data.databricks_group.crime_admins
+    principal  = data.databricks_group.crime_admins.display_name
     privileges = ["ALL_PRIVILEGES"]
   }
 
   grant {
-    principal  = data.databricks_group.crime_users
+    principal  = data.databricks_group.crime_users.display_name
     privileges = ["READ_FILES"]
   }
 }
@@ -109,12 +109,12 @@ resource "databricks_grants" "external_location_admin_grants" {
   external_location = databricks_external_location.landing_external.id
 
   grant {
-    principal  = data.databricks_group.crime_admins
+    principal  = data.databricks_group.crime_admins.display_name
     privileges = ["ALL_PRIVILEGES"]
   }
 
   grant {
-    principal  = data.databricks_group.crime_users
+    principal  = data.databricks_group.crime_users.display_name
     privileges = ["BROWSE", "READ FILES"]
   }
 }
@@ -124,12 +124,12 @@ resource "databricks_grants" "catalog_crime_grants" {
     catalog = databricks_catalog.xhibit_catalog.name
 
     grant {
-      principal  = data.databricks_group.crime_admins
+      principal  = data.databricks_group.crime_admins.display_name
       privileges = ["ALL_PRIVILEGES"]
     }
 
     grant {
-      principal  = data.databricks_group.crime_users
+      principal  = data.databricks_group.crime_users.display_name
       privileges = ["USE_CATALOG", "USE_SCHEMA", "BROWSE", "SELECT", "EXTERNAL_USE_SCHEMA" , "READ VOLUME", "EXECUTE"]
     }
 }
