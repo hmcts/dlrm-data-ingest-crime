@@ -8,6 +8,12 @@ provider "databricks" {
   host = data.azurerm_databricks_workspace.this.workspace_url
 }
 
+provider "databricks" {
+  alias = "account"
+  host = data.azurerm_databricks_workspace.this.
+}
+
+
 data "databricks_spark_version" "latest_lts" {
   long_term_support = true
 }
@@ -81,7 +87,7 @@ resource "databricks_grants" "catalog_crime" {
     catalog = databricks_catalog.xhibit_catalog.name
 
     grant {
-      principal  = "users"
+      principal  = "crime_devs"
       privileges = ["USE_CATALOG", "USE_SCHEMA", "SELECT"]
     }
 }
