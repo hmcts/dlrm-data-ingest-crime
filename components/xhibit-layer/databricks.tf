@@ -21,11 +21,14 @@ data "databricks_group" "admins" {
   display_name = "admins"
 }
 
-# 3) Add SP to admins group (workspace admin)
-# resource "databricks_group_member" "ado_workspace_admin" {
-#   group_id             = data.databricks_group.admins.id
-#   member_id = ""
-# }
+
+resource "databricks_group" "crime_dev" {
+  display_name               = "crime_xhibit_${var.env}"
+  allow_cluster_create       = true
+  allow_instance_pool_create = true
+  workspace_access           = true
+  databricks_sql_access      = true
+}
 
 
 resource "databricks_catalog" "xhibit_catalog" {
