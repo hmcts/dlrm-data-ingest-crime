@@ -111,13 +111,3 @@ resource "databricks_grants" "external_location_permissions" {
     privileges = ["READ_FILES", "WRITE_FILES", "CREATE_EXTERNAL_TABLE"]
   }
 }
-
-
-resource "databricks_grants" "catalog" {
-  catalog = databricks_catalog.xhibit_catalog.name
-
-  grant {
-    principal  = "qiang.zhou@hmcts.net"
-    privileges = ["USE_CATALOG", "CREATE_MANAGED_STORAGE"]
-  }
-}
