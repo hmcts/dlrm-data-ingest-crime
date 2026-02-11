@@ -17,11 +17,14 @@ data "databricks_group" "users" {
 }
 
 
-data "databricks_group" "admins" {
-  display_name = "admins"
+data "databricks_group" "crime_admins" {
+  display_name = "crime_admin_${var.env}"
 }
 
 
+data "databricks_group" "crime_users" {
+  display_name = "crime_${var.env}"
+}
 
 resource "databricks_catalog" "xhibit_catalog" {
   name    = "crime_xhibit_${ var.env }"
@@ -69,14 +72,6 @@ resource "databricks_permissions" "sql_endpoint_user" {
     }
 }
 
-resource "databricks_grants" "catalog_crime" {
-    catalog = databricks_catalog.xhibit_catalog.name
-
-    grant {
-      principal  = "crime_${var.env}"
-      privileges = ["USE_CATALOG", "USE_SCHEMA", "SELECT"]
-    }
-}
 
 resource "databricks_storage_credential" "external" {
   name = "crime_dbrics_catalogue"
@@ -95,20 +90,47 @@ resource "databricks_external_location" "landing_external" {
   isolation_mode = "ISOLATION_MODE_ISOLATED"
 }
 
+## perms
 resource "databricks_grants" "storage_cred_grants" {
   storage_credential = databricks_storage_credential.external.id
 
   grant {
-    principal  = "account users"
-    privileges = ["CREATE EXTERNAL TABLE"]
+    principal  = data.databricks_group.crime_admins
+    privileges = ["ALL_PRIVILEGES"]
+  }
+
+  grant {
+    principal  = data.databricks_group.crime_users
+    privileges = ["READ_FILES"]
   }
 }
 
-resource "databricks_grants" "external_location_permissions" {
+resource "databricks_grants" "external_location_admin_grants" {
   external_location = databricks_external_location.landing_external.id
 
   grant {
-    principal  = "account users" 
-    privileges = ["READ_FILES", "WRITE_FILES", "CREATE_EXTERNAL_TABLE"]
+    principal  = data.databricks_group.crime_admins
+    privileges = ["ALL_PRIVILEGES"]
+  }
+
+  grant {
+    principal  = data.databricks_group.crime_users
+    privileges = ["BROWSE", "READ FILES"]
   }
 }
+
+
+resource "databricks_grants" "catalog_crime_grants" {
+    catalog = databricks_catalog.xhibit_catalog.name
+
+    grant {
+      principal  = data.databricks_group.crime_admins
+      privileges = ["ALL_PRIVILEGES"]
+    }
+
+    grant {
+      principal  = data.databricks_group.crime_users
+      privileges = ["USE_CATALOG", "USE_SCHEMA", "BROWSE", "SELECT", "EXTERNAL_USE_SCHEMA" , "READ VOLUME", "EXECUTE"]
+    }
+}
+
