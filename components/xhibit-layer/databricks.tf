@@ -22,14 +22,6 @@ data "databricks_group" "admins" {
 }
 
 
-resource "databricks_group" "crime_dev" {
-  display_name               = "crime_xhibit_${var.env}"
-  allow_cluster_create       = true
-  allow_instance_pool_create = true
-  workspace_access           = true
-  databricks_sql_access      = true
-}
-
 
 resource "databricks_catalog" "xhibit_catalog" {
   name    = "crime_xhibit_${ var.env }"
@@ -81,7 +73,7 @@ resource "databricks_grants" "catalog_crime" {
     catalog = databricks_catalog.xhibit_catalog.name
 
     grant {
-      principal  = "crime_devs"
+      principal  = "crime_${var.env}"
       privileges = ["USE_CATALOG", "USE_SCHEMA", "SELECT"]
     }
 }
