@@ -99,3 +99,9 @@ variable "landing_container" {
   description = "Landing container"
   default     = "landing"
 }
+
+variable "databricks_landing_isolation_mode" {
+  type        = string
+  description = "Landing external location isolation mode"
+  default     = "ISOLATION_MODE_ISOLATED"
+}
