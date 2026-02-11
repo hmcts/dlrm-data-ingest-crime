@@ -110,7 +110,7 @@ resource "databricks_grants" "external_location_admin_grants" {
 
   grant {
     principal  = data.databricks_group.crime_admins.display_name
-    privileges = ["ALL_PRIVILEGES"]
+    privileges = ["ALL_PRIVILEGES", "MANAGE"]
   }
 
   grant {
@@ -125,7 +125,7 @@ resource "databricks_grants" "catalog_crime_grants" {
 
     grant {
       principal  = data.databricks_group.crime_admins.display_name
-      privileges = ["ALL_PRIVILEGES"]
+      privileges = ["ALL_PRIVILEGES", "MANAGE"]
     }
 
     grant {
