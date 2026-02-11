@@ -81,7 +81,7 @@ resource "databricks_grants" "catalog_crime" {
     catalog = databricks_catalog.xhibit_catalog.name
 
     grant {
-      principal  = databricks_group.crime_dev.acl_principal_id
+      principal  = "users"
       privileges = ["USE_CATALOG", "USE_SCHEMA", "SELECT"]
     }
 }
