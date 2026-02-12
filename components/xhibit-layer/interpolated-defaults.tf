@@ -43,13 +43,6 @@ data "azuread_group" "dlrm_crime_admin" {
   display_name = local.dlrm_crime_admin_group
 }
 
-
-# import {
-#   to = databricks_storage_credential.external
-#   id = "crime_dbrics_catalogue"
-# }
-
-
 module "ctags" {
   source = "github.com/hmcts/terraform-module-common-tags"
 

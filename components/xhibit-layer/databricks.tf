@@ -13,14 +13,12 @@ data "databricks_spark_version" "latest_lts" {
 }
 
 data "databricks_group" "users" {
-    display_name = "users"
+  display_name = "users"
 }
-
 
 data "databricks_group" "crime_admins" {
   display_name = "crime_admin_${var.env}"
 }
-
 
 data "databricks_group" "crime_users" {
   display_name = "crime_${var.env}"
