@@ -6,3 +6,6 @@ landing_zones = {
   }
 }
 
+landing_container="landing-backup"
+
+databricks_landing_isolation_mode="ISOLATION_MODE_OPEN"

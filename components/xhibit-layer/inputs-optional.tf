@@ -93,3 +93,15 @@ variable "dbrics_sql_spot_instance_policy" {
   description = "Databricks sql spot instence policy"
   default     = "COST_OPTIMIZED"
 }
+
+variable "landing_container" {
+  type        = string
+  description = "Landing container"
+  default     = "landing"
+}
+
+variable "databricks_landing_isolation_mode" {
+  type        = string
+  description = "Landing external location isolation mode"
+  default     = "ISOLATION_MODE_ISOLATED"
+}
