@@ -132,3 +132,16 @@ resource "databricks_grants" "catalog_crime_grants" {
     }
 }
 
+data "databricks_metastore" "this" {
+  metastore_id = var.metastore_id
+}
+
+resource "databricks_artifact_allowlist" "crime_artifacts" {
+  metastore_id = data.databricks_metastore.this.id
+  artifact_type  = LIBRARY_JAR
+  artifact_matcher {
+    match_type = "PREFIX_MATCH" 
+    artifact = "/Volumes/crime_landing/default/artifacts/"
+  }
+}
+
