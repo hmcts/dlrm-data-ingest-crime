@@ -138,7 +138,7 @@ data "databricks_metastore" "this" {
 
 resource "databricks_artifact_allowlist" "crime_artifacts" {
   metastore_id = data.databricks_metastore.this.id
-  artifact_type  = LIBRARY_JAR
+  artifact_type  = "LIBRARY_JAR"
   artifact_matcher {
     match_type = "PREFIX_MATCH" 
     artifact = "/Volumes/crime_landing/default/artifacts/"
