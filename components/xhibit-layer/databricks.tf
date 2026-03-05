@@ -150,12 +150,12 @@ resource "databricks_grants" "catalog_crime_grants" {
 }
 
 data "databricks_metastore" "this" {
-  metastore_id = var.metastore_id
+    provider     = databricks.account
+    metastore_id = var.metastore_id
 }
 
 resource "databricks_artifact_allowlist" "crime_artifacts" {
   provider     = databricks.account
-
   metastore_id = data.databricks_metastore.this.id
   artifact_type  = "LIBRARY_JAR"
   artifact_matcher {
