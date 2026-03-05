@@ -9,7 +9,7 @@ data "azurerm_databricks_workspace" "this" {
 
 data "azurerm_key_vault_secret" "databricks_account_id" {
   name         = "databricks-account-id"
-  key_vault_id = data.azurerm_key_vault.kv.id
+  key_vault_id = data.azurerm_key_vault.default_lz_vault.id
 }
 
 
