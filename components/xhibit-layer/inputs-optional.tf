@@ -110,3 +110,8 @@ variable "metastore_id" {
   type    = string
   default = "5b45be19-5b40-4cae-8df2-8994a95305c5"
 }
+
+variable "assign_account" {
+  type    = string
+  default = "false"
+}

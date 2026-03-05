@@ -4,23 +4,6 @@ data "azurerm_databricks_workspace" "this" {
   resource_group_name = "ingest${ local.default_lz }-main-${ var.env }"
 }
 
-
-
-
-data "azurerm_key_vault_secret" "databricks_account_id" {
-  name         = "databricks-account-id"
-  key_vault_id = data.azurerm_key_vault.default_lz_vault.id
-}
-
-
-# Account-level provider (alias)
-provider "databricks" {
-  alias      = "account"
-  host       = "https://accounts.azuredatabricks.net" # Azure Accounts API endpoint
-  account_id = data.azurerm_key_vault_secret.databricks_account_id.value
-}
-
-
 provider "databricks" {
   host = data.azurerm_databricks_workspace.this.workspace_url
 }
@@ -148,19 +131,3 @@ resource "databricks_grants" "catalog_crime_grants" {
       privileges = ["USE_CATALOG", "USE_SCHEMA", "BROWSE", "SELECT", "EXTERNAL_USE_SCHEMA" , "READ VOLUME", "EXECUTE"]
     }
 }
-
-data "databricks_metastore" "this" {
-    provider     = databricks.account
-    metastore_id = var.metastore_id
-}
-
-resource "databricks_artifact_allowlist" "crime_artifacts" {
-  provider     = databricks.account
-  metastore_id = data.databricks_metastore.this.id
-  artifact_type  = "LIBRARY_JAR"
-  artifact_matcher {
-    match_type = "PREFIX_MATCH" 
-    artifact = "/Volumes/crime_landing/default/artifacts/"
-  }
-}
-
