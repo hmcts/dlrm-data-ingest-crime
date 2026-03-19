@@ -138,6 +138,6 @@ resource "databricks_artifact_allowlist" "crime_artifacts" {
   artifact_type  = "LIBRARY_JAR"
   artifact_matcher {
     match_type = "PREFIX_MATCH" 
-    artifact = "/Volumes/crime_landing/default/artifacts/"
+    artifact = "/Volumes/crime_system/default/artifacts/"
   }
 }

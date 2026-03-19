@@ -1,7 +1,7 @@
 # Account-level provider (alias)
 data "azurerm_key_vault_secret" "databricks_account_id" {
   name         = "databricks-account-id"
-  key_vault_id = data.azurerm_key_vault.default_lz_vault.id
+  key_vault_id = data.azurerm_key_vault002.default_lz_vault.id
 }
 
 provider "databricks" {
