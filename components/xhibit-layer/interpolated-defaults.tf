@@ -24,6 +24,12 @@ data "azurerm_key_vault" "lz_vault" {
   resource_group_name = "ingest${each.key}-main-${var.env}"
 }
 
+data "azurerm_key_vault" "default_lz_vault" {
+  name                = "ingest${local.default_lz}-meta002-${var.env}"
+  resource_group_name = "ingest${local.default_lz}-main-${var.env}"
+}
+
+
 data "azurerm_storage_account" "langing_storage" {
   name                = "ingest${local.default_lz}landing${var.env}"
   resource_group_name = "ingest${local.default_lz}-main-${var.env}"
