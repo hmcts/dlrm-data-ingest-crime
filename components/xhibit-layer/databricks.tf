@@ -141,3 +141,19 @@ resource "databricks_artifact_allowlist" "crime_artifacts" {
     artifact = "/Volumes/crime_system/default/artifacts/"
   }
 }
+
+resource "databricks_secret_scope" "app" {
+  name = "xhb-migration"
+}
+
+resource "databricks_secret" "arm_disposed_sas_token" {
+  key          = "ARM-XHIBIT-DISPOSED-CASE-SAS-TOKEN"
+  string_value = data.azurerm_key_vault_secret.arm_xhbit_dispose_cases_sas.value
+  scope        = databricks_secret_scope.app.id
+}
+
+resource "databricks_secret" "arm_warrant_sas_token" {
+  key          = "ARM-XHIBIT-WARRANT-SAS-TOKEN"
+  string_value = data.azurerm_key_vault_secret.arm_xhibit_warrant_sas.value
+  scope        = databricks_secret_scope.app.id
+}
