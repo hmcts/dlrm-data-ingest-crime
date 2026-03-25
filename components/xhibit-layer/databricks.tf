@@ -152,7 +152,7 @@ resource "databricks_secret_acl" "app_secret_reader" {
   scope      = databricks_secret_scope.app.name
 }
 
-resource "databricks_secret_acl" "app_secret_reader" {
+resource "databricks_secret_acl" "app_secret_admin" {
   principal  = MANAGE.databricks_group.crime_admins.display_name
   permission = "READ"
   scope      = databricks_secret_scope.app.name
