@@ -146,6 +146,18 @@ resource "databricks_secret_scope" "app" {
   name = "xhb-migration"
 }
 
+resource "databricks_secret_acl" "app_secret_reader" {
+  principal  = data.databricks_group.crime_users.display_name
+  permission = "READ"
+  scope      = databricks_secret_scope.app.name
+}
+
+resource "databricks_secret_acl" "app_secret_reader" {
+  principal  = MANAGE.databricks_group.crime_admins.display_name
+  permission = "READ"
+  scope      = databricks_secret_scope.app.name
+}
+
 resource "databricks_secret" "arm_disposed_sas_token" {
   key          = "ARM-XHIBIT-DISPOSED-CASE-SAS-TOKEN"
   string_value = data.azurerm_key_vault_secret.arm_xhbit_dispose_cases_sas.value
