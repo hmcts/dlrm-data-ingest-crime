@@ -62,3 +62,13 @@ module "ctags" {
   product      = var.product
   expiresAfter = "3000-01-01"
 }
+
+data "azurerm_key_vault_secret" "arm_xhbit_dispose_cases_sas" {
+  name         = "ARM-XHIBIT-DISPOSED-CASE-SAS-TOKEN"
+  key_vault_id = data.azurerm_key_vault.default_lz_vault.id
+}
+
+data "azurerm_key_vault_secret" "arm_xhibit_warrant_sas" {
+  name         = "ARM-XHIBIT-WARRANT-SAS-TOKEN"
+  key_vault_id = data.azurerm_key_vault.default_lz_vault.id
+}
