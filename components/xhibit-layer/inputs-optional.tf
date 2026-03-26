@@ -115,3 +115,9 @@ variable "assign_account" {
   type    = string
   default = "false"
 }
+
+variable "external_storage_ip_rules" {
+  description = "Allowed public IPs for external storage firewall."
+  type        = list(string)
+  default     = []
+}

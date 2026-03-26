@@ -40,6 +40,11 @@ data "azurerm_storage_account" "curated_storage" {
   resource_group_name = "ingest${local.default_lz}-main-${var.env}"
 }
 
+data "azurerm_storage_account" "external_storage" {
+  name                = "ingest${local.default_lz}external${var.env}"
+  resource_group_name = "ingest${local.default_lz}-main-${var.env}"
+}
+
 data "azurerm_databricks_access_connector" "unity_catalog" {
   name                = "unity-catalog-access-connector"
   resource_group_name = "ingest${local.default_lz}-product-databricks001-managed-rg"
@@ -57,11 +62,3 @@ module "ctags" {
   product      = var.product
   expiresAfter = "3000-01-01"
 }
-
-# Lookup existing Self-Hosted Integration Runtime per Landing Zone
-# data "azurerm_data_factory_integration_runtime_self_hosted" "lz" {
-#   for_each = var.landing_zones
-#   name                = "ingest${each.key}-shir005-${var.env}"
-#   data_factory_name   = "ingest${each.key}-runtimes-dataFactory001-${var.env}"
-#   resource_group_name = "ingest${each.key}-main-${var.env}"
-# }

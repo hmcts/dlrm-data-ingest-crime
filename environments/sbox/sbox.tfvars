@@ -11,3 +11,6 @@ landing_container="landing-backup"
 databricks_landing_isolation_mode="ISOLATION_MODE_OPEN"
 
 assign_account="true"
+external_storage_ip_rules = [
+  "35.176.194.253/32"
+]
