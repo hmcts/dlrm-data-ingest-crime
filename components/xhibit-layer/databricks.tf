@@ -169,3 +169,15 @@ resource "databricks_secret" "arm_warrant_sas_token" {
   string_value = data.azurerm_key_vault_secret.arm_xhibit_warrant_sas.value
   scope        = databricks_secret_scope.app.id
 }
+
+resource "databricks_secret" "cp_xhibit_sp_id" {
+  key          = "cp-blob-spid"
+  string_value = data.azurerm_key_vault_secret.cp_xhibit_sp_id.value
+  scope        = databricks_secret_scope.app.id
+}
+
+resource "databricks_secret" "cp_xhibit_sp_secret" {
+  key          = "cp-blob-secret"
+  string_value = data.azurerm_key_vault_secret.cp_xhibit_sp_secret.value
+  scope        = databricks_secret_scope.app.id
+}
