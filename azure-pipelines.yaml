@@ -36,12 +36,11 @@ parameters:
         component: 'xhibit-layer'
         service_connection: 'DTS-DATAINGEST-STG'
         dependsOn: 'sbox_xhibit'
-      # TODO skipping prod deployment as SP is not created o prod
-      # - deployment: 'prod_xhibit'
-      #   environment: 'prod'
-      #   component: 'xhibit-layer'
-      #   service_connection: 'DTS-DATAINGEST-PROD'
-      #   dependsOn: 'stg_xhibit'
+      - deployment: 'prod_xhibit'
+        environment: 'prod'
+        component: 'xhibit-layer'
+        service_connection: 'DTS-DATAINGEST-PROD'
+        dependsOn: 'stg_xhibit'
 
 variables:
   - name: timeoutInMinutes
