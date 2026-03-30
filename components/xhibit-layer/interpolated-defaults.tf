@@ -68,6 +68,16 @@ data "azurerm_key_vault_secret" "arm_xhibit_warrant_sas" {
   key_vault_id = data.azurerm_key_vault.default_lz_vault.id
 }
 
+data "azurerm_key_vault_secret" "cp_xhibit_sp_id" {
+  name         = "cp-blob-spid"
+  key_vault_id = data.azurerm_key_vault.default_lz_vault.id
+}
+
+data "azurerm_key_vault_secret" "cp_xhibit_sp_secret" {
+  name         = "cp-blob-secret"
+  key_vault_id = data.azurerm_key_vault.default_lz_vault.id
+}
+
 # Lookup existing Self-Hosted Integration Runtime per Landing Zone
 # data "azurerm_data_factory_integration_runtime_self_hosted" "lz" {
 #   for_each = var.landing_zones
