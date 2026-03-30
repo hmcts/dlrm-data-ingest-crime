@@ -70,6 +70,21 @@ resource "databricks_permissions" "sql_endpoint_user" {
     }
 }
 
+resource "databricks_permissions" "shared_autoscaling" {
+    cluster_id = databricks_cluster.shared_autoscaling.id
+    access_control {
+        group_name = data.databricks_group.crime_users.display_name
+        permission_level = "CAN_ATTACH_TO"
+    }
+    access_control {
+      group_name       = data.databricks_group.crime_users.display_name
+      permission_level = "CAN_RESTART"
+    }
+    access_control {
+      group_name       = data.databricks_group.crime_admins.display_name
+      permission_level = "CAN_MANAGE"
+    }
+}
 
 resource "databricks_storage_credential" "external" {
   name = "crime_dbrics_catalogue_${var.env}"
