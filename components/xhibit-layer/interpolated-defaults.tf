@@ -68,6 +68,16 @@ data "azurerm_key_vault_secret" "arm_xhibit_warrant_sas" {
   key_vault_id = data.azurerm_key_vault.default_lz_vault.id
 }
 
+data "azurerm_key_vault_secret" "arm_xhibit_cpmigrated_sas" {
+  name         = "ARM-XHIBIT-CPMIGRATED-CASE-SAS-TOKEN"
+  key_vault_id = data.azurerm_key_vault.default_lz_vault.id
+}
+
+data "azurerm_key_vault_secret" "arm_xhibit_completed_case_sas" {
+  name         = "ARM-XHIBIT-COMPLETED-CASE"
+  key_vault_id = data.azurerm_key_vault.default_lz_vault.id
+}
+
 data "azurerm_key_vault_secret" "cp_xhibit_sp_id" {
   name         = "cp-blob-spid"
   key_vault_id = data.azurerm_key_vault.default_lz_vault.id

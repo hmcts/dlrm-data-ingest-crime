@@ -185,6 +185,18 @@ resource "databricks_secret" "arm_warrant_sas_token" {
   scope        = databricks_secret_scope.app.id
 }
 
+resource "databricks_secret" "arm_xhibit_completed_case_sas_token" {
+  key          = "ARM-XHIBIT-COMPLETED-CASE"
+  string_value = data.azurerm_key_vault_secret.arm_xhibit_completed_case_sas.value
+  scope        = databricks_secret_scope.app.id
+}
+
+resource "databricks_secret" "arm_xhibit_cpmigrated_sas_token" {
+  key          = "ARM-XHIBIT-CPMIGRATED-CASE-SAS-TOKEN"
+  string_value = data.azurerm_key_vault_secret.arm_xhibit_cpmigrated_sas.value
+  scope        = databricks_secret_scope.app.id
+}
+
 resource "databricks_secret" "cp_xhibit_sp_id" {
   key          = "cp-blob-spid"
   string_value = data.azurerm_key_vault_secret.cp_xhibit_sp_id.value
