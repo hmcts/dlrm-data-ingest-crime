@@ -147,6 +147,15 @@ resource "databricks_grants" "catalog_crime_grants" {
     }
 }
 
+resource "databricks_grants" "schema_raw_external_grants" {
+  schema = "${databricks_catalog.xhibit_catalog.name}.raw_external"
+
+  grant {
+    principal  = data.databricks_group.crime_admins.display_name
+    privileges = ["ALL_PRIVILEGES"]
+  }
+}
+
 resource "databricks_artifact_allowlist" "crime_artifacts" {
   count         = var.assign_account == "true" ? 1 : 0
   metastore_id  = data.databricks_metastore.this[0].id
