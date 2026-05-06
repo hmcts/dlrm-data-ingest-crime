@@ -29,7 +29,7 @@ variable "dbrics_node_type_id" {
 variable "dbrics_auto_termination_mins" {
   type        = number
   description = "Databricks auto termination in minutes"
-  default     = 30
+  default     = 120
 }
 
 variable "dbrics_min_workers" {
@@ -55,7 +55,7 @@ variable "dbrics_sql_cluster_size" {
 variable "dbrics_sql_auto_termination_mins" {
   type        = number
   description = "Databricks  sql auto termination in minutes"
-  default     = 30
+  default     = 120
 }
 
 variable "dbrics_sql_min_workers" {
