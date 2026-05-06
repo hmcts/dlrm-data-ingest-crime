@@ -152,7 +152,7 @@ resource "databricks_grants" "schema_raw_external_grants" {
 
   grant {
     principal  = data.databricks_group.crime_admins.display_name
-    privileges = ["ALL_PRIVILEGES"]
+    privileges = ["ALL_PRIVILEGES", "MANAGE"]
   }
 }
 
