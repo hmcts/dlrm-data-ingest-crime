@@ -138,7 +138,7 @@ resource "databricks_grants" "catalog_crime_grants" {
 
     grant {
       principal  = data.databricks_group.crime_admins.display_name
-      privileges = ["ALL_PRIVILEGES"]
+      privileges = ["ALL_PRIVILEGES", "MANAGE"]
     }
 
     grant {
