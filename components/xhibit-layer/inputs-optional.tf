@@ -23,7 +23,7 @@ variable "project" {
 variable "dbrics_node_type_id" {
   type        = string
   description = "Databricks node type"
-  default     = "Standard_DS3_v2"
+  default     = "Standard_E8_v3"
 }
 
 variable "dbrics_auto_termination_mins" {
