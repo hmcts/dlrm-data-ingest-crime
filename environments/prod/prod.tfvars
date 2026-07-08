@@ -5,3 +5,7 @@ landing_zones = {
     deploy_shir   = true
   }
 }
+
+databricks_landing_isolation_mode="ISOLATION_MODE_OPEN"
+
+assign_account="true"
