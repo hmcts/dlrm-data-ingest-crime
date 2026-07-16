@@ -1,7 +1,7 @@
 # --- Reference existing Databricks workspace ---
 data "azurerm_databricks_workspace" "this" {
-  name                = "ingest${ local.default_lz }-product-databricks001-${ var.env }"
-  resource_group_name = "ingest${ local.default_lz }-main-${ var.env }"
+  name                = "ingest${local.default_lz}-product-databricks001-${var.env}"
+  resource_group_name = "ingest${local.default_lz}-main-${var.env}"
 }
 
 provider "databricks" {
@@ -25,18 +25,51 @@ data "databricks_group" "crime_users" {
 }
 
 resource "databricks_catalog" "xhibit_catalog" {
-  name    = "crime_xhibit_${ var.env }"
+  name    = "crime_xhibit_${var.env}"
   comment = "this catalog is managed by terraform"
   properties = {
-    purpose = "Crime xhibit catalog for ${ var.env }"
+    purpose = "Crime xhibit catalog for ${var.env}"
   }
 
-  storage_root = "abfss://${ var.landing_container }@${ data.azurerm_storage_account.langing_storage.name }.dfs.core.windows.net/crime_xhibit_${ var.env }"
+  storage_root   = "abfss://${var.landing_container}@${data.azurerm_storage_account.langing_storage.name}.dfs.core.windows.net/crime_xhibit_${var.env}"
   isolation_mode = "ISOLATED"
 }
 
+resource "databricks_catalog" "xhibit_artifact_catalog" {
+  count   = var.env == "sbox" ? 1 : 0
+  name    = "crime_artifacts"
+  comment = "this catalog is managed by terraform"
+  properties = {
+    purpose = "Crime system catalog for storing JAR applications"
+  }
+
+  isolation_mode = "OPEN"
+}
+
+resource "databricks_schema" "default" {
+  count        = var.env == "sbox" ? 1 : 0
+  catalog_name = databricks_catalog.xhibit_artifact_catalog[0].name
+  name         = "default"
+  comment      = "Default schema for system artifacts"
+}
+
+resource "databricks_volume" "artifacts" {
+  count        = var.env == "sbox" ? 1 : 0
+  name         = "artifacts"
+  catalog_name = databricks_catalog.xhibit_artifact_catalog[0].name
+  schema_name  = databricks_schema.default[0].name
+  comment      = "Volume for jar applications"
+  volume_type  = "MANAGED"
+}
+
+resource "databricks_schema" "raw_external" {
+  catalog_name = databricks_catalog.xhibit_catalog.name
+  name         = "raw_external"
+  comment      = "Raw external schema"
+}
+
 resource "databricks_cluster" "shared_autoscaling" {
-  cluster_name            = "Dlrm Crime Shared Autoscaling ${ var.env }"
+  cluster_name            = "Dlrm Crime Shared Autoscaling ${var.env}"
   spark_version           = data.databricks_spark_version.latest_lts.id
   node_type_id            = var.dbrics_node_type_id
   autotermination_minutes = var.dbrics_auto_termination_mins
@@ -44,46 +77,46 @@ resource "databricks_cluster" "shared_autoscaling" {
     min_workers = var.dbrics_min_workers
     max_workers = var.dbrics_max_workers
   }
-  data_security_mode      = "USER_ISOLATION"
-  custom_tags             = local.common_tags
+  data_security_mode = "USER_ISOLATION"
+  custom_tags        = local.common_tags
 }
 
 
 resource "databricks_sql_endpoint" "sql_warehouse" {
-  name                     = "Dlrm Crime SQl warehouse ${ var.env }"
-  cluster_size             = var.dbrics_sql_cluster_size
-  min_num_clusters         = var.dbrics_sql_min_workers
-  max_num_clusters         = var.dbrics_sql_max_workers
-  auto_stop_mins           = var.dbrics_sql_auto_termination_mins
-  enable_photon            = var.dbrics_sql_enable_photon
+  name                      = "Dlrm Crime SQl warehouse ${var.env}"
+  cluster_size              = var.dbrics_sql_cluster_size
+  min_num_clusters          = var.dbrics_sql_min_workers
+  max_num_clusters          = var.dbrics_sql_max_workers
+  auto_stop_mins            = var.dbrics_sql_auto_termination_mins
+  enable_photon             = var.dbrics_sql_enable_photon
   enable_serverless_compute = var.dbrics_sql_enable_serverless
-  warehouse_type           = var.dbrics_sql_warehouse_type
-  spot_instance_policy     = var.dbrics_sql_spot_instance_policy
+  warehouse_type            = var.dbrics_sql_warehouse_type
+  spot_instance_policy      = var.dbrics_sql_spot_instance_policy
 }
 
 resource "databricks_permissions" "sql_endpoint_user" {
-    sql_endpoint_id = databricks_sql_endpoint.sql_warehouse.id
+  sql_endpoint_id = databricks_sql_endpoint.sql_warehouse.id
 
-    access_control {
-        group_name = data.databricks_group.users.display_name
-        permission_level = "CAN_USE"
-    }
+  access_control {
+    group_name       = data.databricks_group.users.display_name
+    permission_level = "CAN_USE"
+  }
 }
 
 resource "databricks_permissions" "shared_autoscaling" {
-    cluster_id = databricks_cluster.shared_autoscaling.id
-    access_control {
-        group_name = data.databricks_group.crime_users.display_name
-        permission_level = "CAN_ATTACH_TO"
-    }
-    access_control {
-      group_name       = data.databricks_group.crime_users.display_name
-      permission_level = "CAN_RESTART"
-    }
-    access_control {
-      group_name       = data.databricks_group.crime_admins.display_name
-      permission_level = "CAN_MANAGE"
-    }
+  cluster_id = databricks_cluster.shared_autoscaling.id
+  access_control {
+    group_name       = data.databricks_group.crime_users.display_name
+    permission_level = "CAN_ATTACH_TO"
+  }
+  access_control {
+    group_name       = data.databricks_group.crime_users.display_name
+    permission_level = "CAN_RESTART"
+  }
+  access_control {
+    group_name       = data.databricks_group.crime_admins.display_name
+    permission_level = "CAN_MANAGE"
+  }
 }
 
 resource "databricks_storage_credential" "external" {
@@ -91,16 +124,16 @@ resource "databricks_storage_credential" "external" {
   azure_managed_identity {
     access_connector_id = data.azurerm_databricks_access_connector.unity_catalog.id
   }
-  isolation_mode = "${var.databricks_landing_isolation_mode}"
-  comment = "Managed by TF"
+  isolation_mode = var.databricks_landing_isolation_mode
+  comment        = "Managed by TF"
 }
 
 resource "databricks_external_location" "landing_external" {
-  name = "external_st_${var.env}"
-  url = format("abfss://%s@%s.dfs.core.windows.net", var.landing_container, data.azurerm_storage_account.langing_storage.name)
+  name            = "external_st_${var.env}"
+  url             = format("abfss://%s@%s.dfs.core.windows.net", var.landing_container, data.azurerm_storage_account.langing_storage.name)
   credential_name = databricks_storage_credential.external.id
   comment         = "Managed by TF "
-  isolation_mode = "ISOLATION_MODE_ISOLATED"
+  isolation_mode  = "ISOLATION_MODE_ISOLATED"
 }
 
 ## perms
@@ -134,17 +167,17 @@ resource "databricks_grants" "external_location_admin_grants" {
 
 
 resource "databricks_grants" "catalog_crime_grants" {
-    catalog = databricks_catalog.xhibit_catalog.name
+  catalog = databricks_catalog.xhibit_catalog.name
 
-    grant {
-      principal  = data.databricks_group.crime_admins.display_name
-      privileges = ["ALL_PRIVILEGES", "MANAGE"]
-    }
+  grant {
+    principal  = data.databricks_group.crime_admins.display_name
+    privileges = ["ALL_PRIVILEGES", "MANAGE"]
+  }
 
-    grant {
-      principal  = data.databricks_group.crime_users.display_name
-      privileges = ["USE_CATALOG", "USE_SCHEMA", "BROWSE", "SELECT", "EXTERNAL_USE_SCHEMA" , "READ VOLUME", "EXECUTE"]
-    }
+  grant {
+    principal  = data.databricks_group.crime_users.display_name
+    privileges = ["USE_CATALOG", "USE_SCHEMA", "BROWSE", "SELECT", "EXTERNAL_USE_SCHEMA", "READ VOLUME", "EXECUTE"]
+  }
 }
 
 resource "databricks_grants" "schema_raw_external_grants" {
@@ -156,8 +189,8 @@ resource "databricks_grants" "schema_raw_external_grants" {
   }
 }
 
-resource "databricks_grants" "crime_system_catalog_grants" {
-  catalog = "crime_system"
+resource "databricks_grants" "crime_artifacts_catalog_grants" {
+  catalog = local.artifacts_catalog_name
 
   grant {
     principal  = data.databricks_group.crime_admins.display_name
@@ -170,8 +203,8 @@ resource "databricks_grants" "crime_system_catalog_grants" {
   }
 }
 
-resource "databricks_grants" "crime_system_schema_grants" {
-  schema = "crime_system.default"
+resource "databricks_grants" "crime_artifacts_schema_grants" {
+  schema = "${local.artifacts_catalog_name}.default"
 
   grant {
     principal  = data.databricks_group.crime_admins.display_name
@@ -184,8 +217,8 @@ resource "databricks_grants" "crime_system_schema_grants" {
   }
 }
 
-resource "databricks_grants" "crime_system_volume_grants" {
-  volume = "crime_system.default.artifacts"
+resource "databricks_grants" "crime_artifacts_volume_grants" {
+  volume = "${local.artifacts_catalog_name}.default.artifacts"
 
   grant {
     principal  = data.databricks_group.crime_admins.display_name
@@ -198,15 +231,15 @@ resource "databricks_grants" "crime_system_volume_grants" {
   }
 }
 
-resource "databricks_artifact_allowlist" "crime_artifacts" {
-  count         = var.assign_account == "true" ? 1 : 0
-  metastore_id  = data.databricks_metastore.this[0].id
-  artifact_type  = "LIBRARY_JAR"
-  artifact_matcher {
-    match_type = "PREFIX_MATCH"
-    artifact = "/Volumes/crime_system/default/artifacts/"
-  }
-}
+// resource "databricks_artifact_allowlist" "crime_artifacts" {
+//   count         = var.assign_account == "true" ? 1 : 0
+//   metastore_id  = data.databricks_metastore.this[0].id
+//   artifact_type = "LIBRARY_JAR"
+//   artifact_matcher {
+//     match_type = "PREFIX_MATCH"
+//     artifact   = "/Volumes/${local.artifacts_catalog_name}/default/artifacts/"
+//   }
+// }
 
 resource "databricks_secret_scope" "app" {
   name = "xhb-migration"

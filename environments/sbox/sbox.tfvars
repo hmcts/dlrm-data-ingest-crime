@@ -2,12 +2,12 @@
 landing_zones = {
   "05" = {
     use_microsoft_ip_kit_structure = true
-    deploy_shir   = true
+    deploy_shir                    = true
   }
 }
 
-landing_container="landing-backup"
+landing_container = "landing-backup"
 
-databricks_landing_isolation_mode="ISOLATION_MODE_OPEN"
+databricks_landing_isolation_mode = "ISOLATION_MODE_OPEN"
 
-assign_account="true"
+assign_account = "true"

@@ -3,11 +3,11 @@ terraform {
 
   required_providers {
     azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "4.57.0"
+      source                = "hashicorp/azurerm"
+      version               = "4.57.0"
       configuration_aliases = [azurerm.soc, azurerm.cnp, azurerm.dcr]
     }
-    
+
     databricks = {
       source  = "databricks/databricks"
       version = "~> 1.105.0"
