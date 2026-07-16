@@ -35,6 +35,39 @@ resource "databricks_catalog" "xhibit_catalog" {
   isolation_mode = "ISOLATED"
 }
 
+resource "databricks_catalog" "xhibit_artifact_catalog" {
+  count = var.env == "sbox" ? 1 : 0
+  name    = "crime_artifacts"
+  comment = "this catalog is managed by terraform"
+  properties = {
+    purpose = "Crime system catalog for storing JAR applications"
+  }
+
+  isolation_mode = "OPEN"
+}
+
+resource "databricks_schema" "default" {
+  count = var.env == "sbox" ? 1 : 0
+  catalog_name = databricks_catalog.xhibit_artifact_catalog[0].name
+  name         = "default"
+  comment      = "Default schema for system artifacts"
+}
+
+resource "databricks_volume" "artifacts" {
+  count = var.env == "sbox" ? 1 : 0
+  name         = "artifacts"
+  catalog_name = databricks_catalog.xhibit_artifact_catalog[0].name
+  schema_name  = databricks_schema.default.name
+  comment      = "Volume for jar applications"
+  volume_type  = "MANAGED"
+}
+
+resource "databricks_schema" "raw_external" {
+  catalog_name = databricks_catalog.xhibit_catalog.name
+  name         = "raw_external"
+  comment      = "Raw external schema"
+}
+
 resource "databricks_cluster" "shared_autoscaling" {
   cluster_name            = "Dlrm Crime Shared Autoscaling ${ var.env }"
   spark_version           = data.databricks_spark_version.latest_lts.id
@@ -156,8 +189,8 @@ resource "databricks_grants" "schema_raw_external_grants" {
   }
 }
 
-resource "databricks_grants" "crime_system_catalog_grants" {
-  catalog = "crime_system"
+resource "databricks_grants" "crime_artifacts_catalog_grants" {
+  catalog = local.artifacts_catalog_name
 
   grant {
     principal  = data.databricks_group.crime_admins.display_name
@@ -170,8 +203,8 @@ resource "databricks_grants" "crime_system_catalog_grants" {
   }
 }
 
-resource "databricks_grants" "crime_system_schema_grants" {
-  schema = "crime_system.default"
+resource "databricks_grants" "crime_artifacts_schema_grants" {
+  schema = "${local.artifacts_catalog_name}.default"
 
   grant {
     principal  = data.databricks_group.crime_admins.display_name
@@ -184,8 +217,8 @@ resource "databricks_grants" "crime_system_schema_grants" {
   }
 }
 
-resource "databricks_grants" "crime_system_volume_grants" {
-  volume = "crime_system.default.artifacts"
+resource "databricks_grants" "crime_artifacts_volume_grants" {
+  volume = "${local.artifacts_catalog_name}.default.artifacts"
 
   grant {
     principal  = data.databricks_group.crime_admins.display_name
@@ -204,7 +237,7 @@ resource "databricks_artifact_allowlist" "crime_artifacts" {
   artifact_type  = "LIBRARY_JAR"
   artifact_matcher {
     match_type = "PREFIX_MATCH"
-    artifact = "/Volumes/crime_system/default/artifacts/"
+    artifact = "/Volumes/${local.artifacts_catalog_name}/default/artifacts/"
   }
 }
 
