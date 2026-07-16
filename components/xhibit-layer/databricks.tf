@@ -57,7 +57,7 @@ resource "databricks_volume" "artifacts" {
   count        = var.env == "sbox" ? 1 : 0
   name         = "artifacts"
   catalog_name = databricks_catalog.xhibit_artifact_catalog[0].name
-  schema_name  = databricks_schema.default.name
+  schema_name  = databricks_schema.default[0].name
   comment      = "Volume for jar applications"
   volume_type  = "MANAGED"
 }
