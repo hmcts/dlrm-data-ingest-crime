@@ -156,16 +156,6 @@ resource "databricks_grants" "schema_raw_external_grants" {
   }
 }
 
-// resource "databricks_artifact_allowlist" "crime_artifacts" {
-//   count         = var.assign_account == "true" ? 1 : 0
-//   metastore_id  = data.databricks_metastore.this[0].id
-//   artifact_type  = "LIBRARY_JAR"
-//   artifact_matcher {
-//     match_type = "PREFIX_MATCH"
-//     artifact = "/Volumes/crime_system/default/artifacts/"
-//   }
-// }
-
 resource "databricks_secret_scope" "app" {
   name = "xhb-migration"
 }
