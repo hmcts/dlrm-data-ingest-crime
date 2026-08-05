@@ -178,7 +178,7 @@ resource "databricks_schema" "stg_shared_schema" {
 }
 
 resource "databricks_grants" "schema_raw_external_grants" {
-  schema = "${databricks_catalog.xhibit_catalog.name}.raw_external"
+  schema = databricks_schema.raw_external_schema.id
 
   grant {
     principal  = data.databricks_group.crime_admins.display_name
