@@ -148,31 +148,31 @@ resource "databricks_grants" "catalog_crime_grants" {
 }
 
 resource "databricks_schema" "raw_external_schema" {
-  catalog = databricks_catalog.xhibit_catalog.id
+  catalog_name = databricks_catalog.xhibit_catalog.id
   name    = "raw_external"
   comment = "Schema to host raw Oracle data"
 }
 
 resource "databricks_schema" "audit_schema" {
-  catalog = databricks_catalog.xhibit_catalog.id
+  catalog_name = databricks_catalog.xhibit_catalog.id
   name    = "audit"
   comment = "Schema for auditing tables"
 }
 
 resource "databricks_schema" "staging_arm_schema" {
-  catalog = databricks_catalog.xhibit_catalog.id
+  catalog_name = databricks_catalog.xhibit_catalog.id
   name    = "staging_arm"
   comment = "Staging ARM data"
 }
 
 resource "databricks_schema" "staging_cp_schema" {
-  catalog = databricks_catalog.xhibit_catalog.id
+  catalog_name = databricks_catalog.xhibit_catalog.id
   name    = "staging_cp"
   comment = "Staging CP Data"
 }
 
 resource "databricks_schema" "stg_shared_schema" {
-  catalog = databricks_catalog.xhibit_catalog.id
+  catalog_name = databricks_catalog.xhibit_catalog.id
   name    = "stg_shared"
   comment = "Staging Shared Schema"
 }
