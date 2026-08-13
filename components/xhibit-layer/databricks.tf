@@ -177,6 +177,12 @@ resource "databricks_schema" "stg_shared_schema" {
   comment = "Staging Shared Schema"
 }
 
+resource "databricks_schema" "curated" {
+  catalog_name = databricks_catalog.xhibit_catalog.id
+  name    = "curated"
+  comment = "Curated Schema"
+}
+
 resource "databricks_grants" "schema_raw_external_grants" {
   schema = databricks_schema.raw_external_schema.id
 
