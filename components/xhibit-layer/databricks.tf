@@ -25,39 +25,39 @@ data "databricks_group" "crime_users" {
 }
 
 import {
-  for_each = var.env == "prod" ? toset(["raw_external"]) : toset([])
+  for_each = var.env == "prod" ? { "import" = "eacba44a-50ac-4d1c-82ca-fbdbc6f6aac1" } : {}
   to       = databricks_schema.raw_external_schema
-  id       = "eacba44a-50ac-4d1c-82ca-fbdbc6f6aac1"
+  id       = each.value
 }
 
 import {
-  for_each = var.env == "prod" ? toset(["audit_schema"]) : toset([])
+  for_each = var.env == "prod" ? { "import" = "654e0a68-ee5c-4f13-9511-58fde59ddfaa" } : {}
   to       = databricks_schema.audit_schema
-  id       = "654e0a68-ee5c-4f13-9511-58fde59ddfaa"
+  id       = each.value
 }
 
 import {
-  for_each = var.env == "prod" ? toset(["staging_arm_schema"]) : toset([])
+  for_each = var.env == "prod" ? { "import" = "0f4071ca-eee9-41e5-a0f0-15a7c6d05cee" } : {}
   to       = databricks_schema.staging_arm_schema
-  id       = "0f4071ca-eee9-41e5-a0f0-15a7c6d05cee"
+  id       = each.value
 }
 
 import {
-  for_each = var.env == "prod" ? toset(["staging_cp_schema"]) : toset([])
+  for_each = var.env == "prod" ? { "import" = "1b8ce3cc-f82c-4f3a-a452-4b1f0f5b2ac4" } : {}
   to       = databricks_schema.staging_cp_schema
-  id       = "1b8ce3cc-f82c-4f3a-a452-4b1f0f5b2ac4"
+  id       = each.value
 }
 
 import {
-  for_each = var.env == "prod" ? toset(["stg_shared_schema"]) : toset([])
+  for_each = var.env == "prod" ? { "import" = "6ca367ff-e9fe-4ac2-8914-4bce8fad91e1" } : {}
   to       = databricks_schema.stg_shared_schema
-  id       = "6ca367ff-e9fe-4ac2-8914-4bce8fad91e1"
+  id       = each.value
 }
 
 import {
-  for_each = var.env == "prod" ? toset(["curated"]) : toset([])
+  for_each = var.env == "prod" ? { "import" = "92324276-63fb-4c15-a560-ffcf76b0ede6" } : {}
   to       = databricks_schema.curated
-  id       = "92324276-63fb-4c15-a560-ffcf76b0ede6"
+  id       = each.value
 }
 
 resource "databricks_catalog" "xhibit_catalog" {
