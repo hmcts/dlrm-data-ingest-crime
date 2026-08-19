@@ -24,6 +24,8 @@ data "databricks_group" "crime_users" {
   display_name = "crime_${var.env}"
 }
 
+# Imports for prod schemas only
+
 import {
   for_each = var.env == "prod" ? { "import" = "eacba44a-50ac-4d1c-82ca-fbdbc6f6aac1" } : {}
   to       = databricks_schema.raw_external_schema
