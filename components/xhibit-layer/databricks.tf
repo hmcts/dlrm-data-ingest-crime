@@ -27,37 +27,37 @@ data "databricks_group" "crime_users" {
 # Imports for prod schemas only
 
 import {
-  for_each = var.env == "prod" ? { "import" = "eacba44a-50ac-4d1c-82ca-fbdbc6f6aac1" } : {}
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.raw_external" } : {}
   to       = databricks_schema.raw_external_schema
   id       = each.value
 }
 
 import {
-  for_each = var.env == "prod" ? { "import" = "654e0a68-ee5c-4f13-9511-58fde59ddfaa" } : {}
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.audit_schema" } : {}
   to       = databricks_schema.audit_schema
   id       = each.value
 }
 
 import {
-  for_each = var.env == "prod" ? { "import" = "0f4071ca-eee9-41e5-a0f0-15a7c6d05cee" } : {}
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.staging_arm_schema" } : {}
   to       = databricks_schema.staging_arm_schema
   id       = each.value
 }
 
 import {
-  for_each = var.env == "prod" ? { "import" = "1b8ce3cc-f82c-4f3a-a452-4b1f0f5b2ac4" } : {}
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.staging_cp_schema" } : {}
   to       = databricks_schema.staging_cp_schema
   id       = each.value
 }
 
 import {
-  for_each = var.env == "prod" ? { "import" = "6ca367ff-e9fe-4ac2-8914-4bce8fad91e1" } : {}
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.stg_shared_schema" } : {}
   to       = databricks_schema.stg_shared_schema
   id       = each.value
 }
 
 import {
-  for_each = var.env == "prod" ? { "import" = "92324276-63fb-4c15-a560-ffcf76b0ede6" } : {}
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.curated" } : {}
   to       = databricks_schema.curated
   id       = each.value
 }
