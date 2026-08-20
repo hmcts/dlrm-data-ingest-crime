@@ -32,6 +32,12 @@ import {
   id       = each.value
 }
 
+import {
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.curated" } : {}
+  to       = databricks_schema.curated
+  id       = each.value
+}
+
 resource "databricks_catalog" "xhibit_catalog" {
   name    = "crime_xhibit_${var.env}"
   comment = "this catalog is managed by terraform"
