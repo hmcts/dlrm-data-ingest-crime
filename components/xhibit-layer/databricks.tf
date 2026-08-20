@@ -33,8 +33,26 @@ import {
 }
 
 import {
-  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.curated" } : {}
-  to       = databricks_schema.curated
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.audit_schema" } : {}
+  to       = databricks_schema.audit_schema
+  id       = each.value
+}
+
+import {
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.staging_arm_schema" } : {}
+  to       = databricks_schema.staging_arm_schema
+  id       = each.value
+}
+
+import {
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.staging_cp_schema" } : {}
+  to       = databricks_schema.staging_cp_schema
+  id       = each.value
+}
+
+import {
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.stg_shared_schema" } : {}
+  to       = databricks_schema.stg_shared_schema
   id       = each.value
 }
 
