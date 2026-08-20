@@ -32,12 +32,6 @@ import {
   id       = each.value
 }
 
-import {
-  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.curated" } : {}
-  to       = databricks_schema.curated
-  id       = each.value
-}
-
 resource "databricks_catalog" "xhibit_catalog" {
   name    = "crime_xhibit_${var.env}"
   comment = "this catalog is managed by terraform"
@@ -195,10 +189,6 @@ resource "databricks_schema" "curated" {
   catalog_name = databricks_catalog.xhibit_catalog.id
   name    = "curated"
   comment = "Curated Schema"
-}
-
-output "debug_curated_schema" {
-  value = databricks_schema.curated
 }
 
 resource "databricks_grants" "schema_raw_external_grants" {
