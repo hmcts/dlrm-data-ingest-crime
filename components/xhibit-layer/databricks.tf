@@ -197,6 +197,10 @@ resource "databricks_schema" "curated" {
   comment = "Curated Schema"
 }
 
+output "debug_curated_schema" {
+  value = databricks_schema.curated
+}
+
 resource "databricks_grants" "schema_raw_external_grants" {
   schema = databricks_schema.raw_external_schema.id
 
