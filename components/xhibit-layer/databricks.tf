@@ -58,7 +58,7 @@ import {
 
 import {
   for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.curated" } : {}
-  to       = databricks_schema.curated_schema
+  to       = databricks_schema.curated
   id       = each.value
 }
 
@@ -215,7 +215,7 @@ resource "databricks_schema" "stg_shared_schema" {
   comment = "Staging Shared Schema"
 }
 
-resource "databricks_schema" "curated_schema" {
+resource "databricks_schema" "curated" {
   catalog_name = databricks_catalog.xhibit_catalog.id
   name    = "curated"
   comment = "Curated Schema"
