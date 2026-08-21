@@ -32,6 +32,36 @@ import {
   id       = each.value
 }
 
+import {
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.audit" } : {}
+  to       = databricks_schema.audit_schema
+  id       = each.value
+}
+
+import {
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.staging_arm" } : {}
+  to       = databricks_schema.staging_arm_schema
+  id       = each.value
+}
+
+import {
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.staging_cp" } : {}
+  to       = databricks_schema.staging_cp_schema
+  id       = each.value
+}
+
+import {
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.stg_shared" } : {}
+  to       = databricks_schema.stg_shared_schema
+  id       = each.value
+}
+
+import {
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.curated" } : {}
+  to       = databricks_schema.curated_schema
+  id       = each.value
+}
+
 resource "databricks_catalog" "xhibit_catalog" {
   name    = "crime_xhibit_${var.env}"
   comment = "this catalog is managed by terraform"
@@ -185,7 +215,7 @@ resource "databricks_schema" "stg_shared_schema" {
   comment = "Staging Shared Schema"
 }
 
-resource "databricks_schema" "curated" {
+resource "databricks_schema" "curated_schema" {
   catalog_name = databricks_catalog.xhibit_catalog.id
   name    = "curated"
   comment = "Curated Schema"
