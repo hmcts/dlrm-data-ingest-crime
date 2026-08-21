@@ -24,6 +24,38 @@ data "databricks_group" "crime_users" {
   display_name = "crime_${var.env}"
 }
 
+# Imports for prod schemas only
+
+import {
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.raw_external" } : {}
+  to       = databricks_schema.raw_external_schema
+  id       = each.value
+}
+
+import {
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.audit" } : {}
+  to       = databricks_schema.audit_schema
+  id       = each.value
+}
+
+import {
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.staging_arm" } : {}
+  to       = databricks_schema.staging_arm_schema
+  id       = each.value
+}
+
+import {
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.staging_cp" } : {}
+  to       = databricks_schema.staging_cp_schema
+  id       = each.value
+}
+
+import {
+  for_each = var.env == "prod" ? { "import" = "${databricks_catalog.xhibit_catalog.name}.stg_shared" } : {}
+  to       = databricks_schema.stg_shared_schema
+  id       = each.value
+}
+
 resource "databricks_catalog" "xhibit_catalog" {
   name    = "crime_xhibit_${var.env}"
   comment = "this catalog is managed by terraform"
