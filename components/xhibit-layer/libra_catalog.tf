@@ -47,13 +47,13 @@ resource "databricks_schema" "libra_stg_cp_schema" {
   comment = "Staging CP data"
 }
 
-resource "databricks_schema" "audit_schema" {
+resource "databricks_schema" "libra_audit_schema" {
   catalog_name = databricks_catalog.libra_catalog.id
   name    = "audit"
   comment = "Schema for auditing tables"
 }
 
-resource "databricks_schema" "export_json_schema" {
+resource "databricks_schema" "libra_export_json_schema" {
   catalog_name = databricks_catalog.libra_catalog.id
   name    = "export_json"
   comment = "Export JSON Schema"
