@@ -47,6 +47,18 @@ resource "databricks_schema" "libra_stg_cp_schema" {
   comment = "Staging CP data"
 }
 
+resource "databricks_schema" "audit_schema" {
+  catalog_name = databricks_catalog.libra_catalog.id
+  name    = "audit"
+  comment = "Schema for auditing tables"
+}
+
+resource "databricks_schema" "export_json_schema" {
+  catalog_name = databricks_catalog.libra_catalog.id
+  name    = "export_json"
+  comment = "Export JSON Schema"
+}
+
 resource "databricks_grants" "schema_libra_raw_external_grants" {
   schema = databricks_schema.libra_raw_external_schema.id
 
