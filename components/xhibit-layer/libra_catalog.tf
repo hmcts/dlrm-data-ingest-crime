@@ -29,6 +29,36 @@ resource "databricks_schema" "libra_raw_external_schema" {
   comment = "Schema to host raw Oracle data"
 }
 
+resource "databricks_schema" "libra_stg_shared_schema" {
+  catalog_name = databricks_catalog.libra_catalog.id
+  name    = "stg_shared"
+  comment = "Staging Shared Schema"
+}
+
+resource "databricks_schema" "libra_stg_arm_schema" {
+  catalog_name = databricks_catalog.libra_catalog.id
+  name    = "stg_arm"
+  comment = "Staging ARM data"
+}
+
+resource "databricks_schema" "libra_stg_cp_schema" {
+  catalog_name = databricks_catalog.libra_catalog.id
+  name    = "stg_cp"
+  comment = "Staging CP data"
+}
+
+resource "databricks_schema" "libra_audit_schema" {
+  catalog_name = databricks_catalog.libra_catalog.id
+  name    = "audit"
+  comment = "Schema for auditing tables"
+}
+
+resource "databricks_schema" "libra_export_json_schema" {
+  catalog_name = databricks_catalog.libra_catalog.id
+  name    = "export_json"
+  comment = "Export JSON Schema"
+}
+
 resource "databricks_grants" "schema_libra_raw_external_grants" {
   schema = databricks_schema.libra_raw_external_schema.id
 
