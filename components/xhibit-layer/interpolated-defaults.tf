@@ -89,7 +89,7 @@ data "azurerm_key_vault_secret" "cp_xhibit_sp_secret" {
 }
 
 data "azurerm_key_vault_secret" "postgres_username" {
-  name         = "ngest05-crime-legacy-username-${var.env}"
+  name         = "ingest05-crime-legacy-username-${var.env}"
   key_vault_id = data.azurerm_key_vault.default_lz_vault.id
 }
 
