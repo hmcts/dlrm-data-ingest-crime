@@ -88,6 +88,16 @@ data "azurerm_key_vault_secret" "cp_xhibit_sp_secret" {
   key_vault_id = data.azurerm_key_vault.default_lz_vault.id
 }
 
+data "azurerm_key_vault_secret" "postgres_username" {
+  name         = "ngest05-crime-legacy-username-${var.env}"
+  key_vault_id = data.azurerm_key_vault.default_lz_vault.id
+}
+
+data "azurerm_key_vault_secret" "postgres_password" {
+  name         = "ingest05-crime-legacy-password-${var.env}"
+  key_vault_id = data.azurerm_key_vault.default_lz_vault.id
+}
+
 # Lookup existing Self-Hosted Integration Runtime per Landing Zone
 # data "azurerm_data_factory_integration_runtime_self_hosted" "lz" {
 #   for_each = var.landing_zones

@@ -59,6 +59,12 @@ resource "databricks_schema" "libra_export_json_schema" {
   comment = "Export JSON Schema"
 }
 
+resource "databricks_schema" "libra_courtstore_schema" {
+  catalog_name = databricks_catalog.libra_catalog.id
+  name    = "courtstore"
+  comment = "Schema for courtstore tables"
+}
+
 resource "databricks_grants" "schema_libra_raw_external_grants" {
   schema = databricks_schema.libra_raw_external_schema.id
 
