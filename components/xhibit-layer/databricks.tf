@@ -253,3 +253,15 @@ resource "databricks_secret" "cp_xhibit_sp_secret" {
   string_value = data.azurerm_key_vault_secret.cp_xhibit_sp_secret.value
   scope        = databricks_secret_scope.app.id
 }
+
+resource "databricks_secret" "postgres_username" {
+  key          = "ingest05-crime-legacy-username-${var.env}"
+  string_value = data.azurerm_key_vault_secret.postgres_username.value
+  scope        = databricks_secret_scope.app.id
+}
+
+resource "databricks_secret" "postgres_password" {
+  key          = "ingest05-crime-legacy-password-${var.env}"
+  string_value = data.azurerm_key_vault_secret.postgres_password.value
+  scope        = databricks_secret_scope.app.id
+}
