@@ -46,6 +46,9 @@ resource "databricks_cluster" "shared_autoscaling" {
   }
   data_security_mode = "USER_ISOLATION"
   custom_tags        = local.common_tags
+  spark_conf = {
+    "spark.driver.extraJavaOptions" = local.driver_java_opts
+  }
 }
 
 
@@ -149,38 +152,38 @@ resource "databricks_grants" "catalog_crime_grants" {
 
 resource "databricks_schema" "raw_external_schema" {
   catalog_name = databricks_catalog.xhibit_catalog.id
-  name    = "raw_external"
-  comment = "Schema to host raw Oracle data"
+  name         = "raw_external"
+  comment      = "Schema to host raw Oracle data"
 }
 
 resource "databricks_schema" "audit_schema" {
   catalog_name = databricks_catalog.xhibit_catalog.id
-  name    = "audit"
-  comment = "Schema for auditing tables"
+  name         = "audit"
+  comment      = "Schema for auditing tables"
 }
 
 resource "databricks_schema" "staging_arm_schema" {
   catalog_name = databricks_catalog.xhibit_catalog.id
-  name    = "staging_arm"
-  comment = "Staging ARM data"
+  name         = "staging_arm"
+  comment      = "Staging ARM data"
 }
 
 resource "databricks_schema" "staging_cp_schema" {
   catalog_name = databricks_catalog.xhibit_catalog.id
-  name    = "staging_cp"
-  comment = "Staging CP Data"
+  name         = "staging_cp"
+  comment      = "Staging CP Data"
 }
 
 resource "databricks_schema" "stg_shared_schema" {
   catalog_name = databricks_catalog.xhibit_catalog.id
-  name    = "stg_shared"
-  comment = "Staging Shared Schema"
+  name         = "stg_shared"
+  comment      = "Staging Shared Schema"
 }
 
 resource "databricks_schema" "curated" {
   catalog_name = databricks_catalog.xhibit_catalog.id
-  name    = "curated"
-  comment = "Curated Schema"
+  name         = "curated"
+  comment      = "Curated Schema"
 }
 
 resource "databricks_grants" "schema_raw_external_grants" {

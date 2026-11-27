@@ -25,44 +25,44 @@ resource "databricks_grants" "libra_catalog_crime_grants" {
 
 resource "databricks_schema" "libra_raw_external_schema" {
   catalog_name = databricks_catalog.libra_catalog.id
-  name    = "raw_external"
-  comment = "Schema to host raw Oracle data"
+  name         = "raw_external"
+  comment      = "Schema to host raw Oracle data"
 }
 
 resource "databricks_schema" "libra_stg_shared_schema" {
   catalog_name = databricks_catalog.libra_catalog.id
-  name    = "stg_shared"
-  comment = "Staging Shared Schema"
+  name         = "stg_shared"
+  comment      = "Staging Shared Schema"
 }
 
 resource "databricks_schema" "libra_stg_arm_schema" {
   catalog_name = databricks_catalog.libra_catalog.id
-  name    = "stg_arm"
-  comment = "Staging ARM data"
+  name         = "stg_arm"
+  comment      = "Staging ARM data"
 }
 
 resource "databricks_schema" "libra_stg_cp_schema" {
   catalog_name = databricks_catalog.libra_catalog.id
-  name    = "stg_cp"
-  comment = "Staging CP data"
+  name         = "stg_cp"
+  comment      = "Staging CP data"
 }
 
 resource "databricks_schema" "libra_audit_schema" {
   catalog_name = databricks_catalog.libra_catalog.id
-  name    = "audit"
-  comment = "Schema for auditing tables"
+  name         = "audit"
+  comment      = "Schema for auditing tables"
 }
 
 resource "databricks_schema" "libra_export_json_schema" {
   catalog_name = databricks_catalog.libra_catalog.id
-  name    = "export_json"
-  comment = "Export JSON Schema"
+  name         = "export_json"
+  comment      = "Export JSON Schema"
 }
 
 resource "databricks_schema" "libra_courtstore_schema" {
   catalog_name = databricks_catalog.libra_catalog.id
-  name    = "courtstore"
-  comment = "Schema for courtstore tables"
+  name         = "courtstore"
+  comment      = "Schema for courtstore tables"
 }
 
 resource "databricks_grants" "schema_libra_raw_external_grants" {
