@@ -36,4 +36,10 @@ locals {
 
   # Setting up a default landing zone. The project will use single LZ.
   default_lz = "05"
+  driver_java_opts = join(" ", [
+    "-XX:+UseG1GC",
+    "-XX:+ExplicitGCInvokesConcurrent",
+    "-XX:+PerfDisableSharedMem",
+    "-Xlog:gc+cpu,safepoint",
+  ])
 }
